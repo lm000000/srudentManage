@@ -4,7 +4,21 @@
 </template>
 <script>
 export default {
-  mounted() {
+  props:{
+     data1:{
+       type:Array
+     },
+     data2:{
+       type:Array
+     }
+  },
+  watch:{
+    data1(newVal,oldVal){
+    this.echarts()
+    }
+  },
+  methods: {
+    echarts(){
     var chartDom = document.getElementById("num");
     var myChart = this.$echarts.init(chartDom);
     var option;
@@ -22,27 +36,15 @@ export default {
       },
       xAxis: {
         type: "category",
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        data:this.data2,
+        
       },
       yAxis: {
         type: "value",
       },
       series: [
         {
-          data: [
-            120,
-            {
-              value: 200,
-              itemStyle: {
-                color: "white",
-              },
-            },
-            150,
-            80,
-            70,
-            110,
-            130,
-          ],
+          data: this.data1,
           type: "bar",
         },
       ],
@@ -50,7 +52,8 @@ export default {
 
     option && myChart.setOption(option);
   },
-};
+  }
+}
 </script>
 
 <style scoped>

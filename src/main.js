@@ -13,7 +13,9 @@ import "echarts-gl"
 
 Vue.prototype.$echarts=echarts
 
+axios.defaults.baseURL="http://127.0.0.1:3000/"
 Vue.prototype.$http = axios
+
 Vue.use(elementUi)
 
 Vue.config.productionTip = false

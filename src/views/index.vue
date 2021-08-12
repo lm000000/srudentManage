@@ -1,6 +1,6 @@
 <template>
      <div class="index">
-          <tabbar/>
+          <tabbar></tabbar>
        <div class="router"><router-view></router-view></div>
        <!-- 音频 -->
        <div class="audio">
@@ -10,19 +10,20 @@
        </div>
        <!-- 退出按钮 -->
        <div class="button">
-            <el-dropdown trigger="click">
+            <el-dropdown trigger="click" @command="click">
                  <el-button type="danger" class="el-icon-setting" circle></el-button>
-                 <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>退出</el-dropdown-item>
+                 <el-dropdown-menu slot="dropdown" @command="click">
+                      <el-dropdown-item command="a">退出</el-dropdown-item>
                  </el-dropdown-menu>
             </el-dropdown>
-       </div>
+       </div>  
      </div>
 </template>
 <script>
 import tabbar from "../components/tabbar"
 
 export default {
+
  components:{
       tabbar
  },
@@ -32,6 +33,9 @@ export default {
       },
       offClick(){
            document.querySelector('audio').pause()
+      },
+      click(a){
+           this.$router.push("/")
       }
  }
 }
@@ -48,7 +52,8 @@ export default {
      position:absolute;
      top:0;
     left: 32%;
-    width:68%
+    width:68%;
+    height:100%;
 }
 .audio{
      position: absolute;

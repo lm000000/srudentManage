@@ -5,7 +5,7 @@
       <div class="loginForm">
         <el-form :model="formData" ref="resetForm" :rules="rules" label-width="80px">
           <el-form-item prop="username">
-            <el-input
+            <el-input  ref="value"
               v-model="formData.username"
               prefix-icon="el-icon-s-custom"
             ></el-input>
@@ -18,8 +18,9 @@
             ></el-input>
           </el-form-item>
           <el-form-item class="bottom">
-            <el-button type="primary" @click="check">登录</el-button>
-            <el-button @click="reset">重置</el-button>
+            <el-button type="primary" @click="noCheck">游客登录</el-button>
+            <el-button type="primary" @click="check" >管理员登录</el-button>
+            <el-button type="info" @click="reset">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -43,7 +44,8 @@ export default {
          { required: true, message: '密码', trigger: 'blur' },
          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
-      }
+      },
+      flag:0
     }
   },
   methods: {
@@ -54,9 +56,26 @@ export default {
     /* 验证成功返回ture 失败返回false */
     check(){
       this.$refs.resetForm.validate(data=>{
-        console.log(data)
+        this.$http({
+          url:"/user"
+        })
+        .then(res=>{
+          for(let i=0;i<res.data.length;i++){
+          if(this.$refs.value.value==res.data[i].name){
+            this.flag=1
+            this.$router.push("/admin/0-0")
+          }
+          }
+          if(this.flag===0){
+            this.$message.error('错了哦，这是一条错误消息');
+          }
+          console.log(this.flag)
+        })
       })
-    }
+    },
+    noCheck(){
+      this.$router.push("/index/0")
+    },
   }}
   
 </script>
